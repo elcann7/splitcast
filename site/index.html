@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -170,21 +170,35 @@
             <h3>Pick your speed</h3>
             <p>Three quality levels. Slower means fewer mix-ups between similar faces.</p>
             <ul class="speed" id="speed" aria-hidden="true">
-              <li><span>Fast</span><div class="sbar"><i data-w="100"></i></div><em class="mono">~25×</em></li>
-              <li><span>Balanced</span><div class="sbar"><i data-w="60"></i></div><em class="mono">~15×</em></li>
-              <li><span>Maximum</span><div class="sbar"><i data-w="24"></i></div><em class="mono">~6×</em></li>
+              <li><span>Fast</span><div class="sbar"><i data-w="100"></i></div><em class="mono">~5×</em></li>
+              <li><span>Balanced</span><div class="sbar"><i data-w="80"></i></div><em class="mono">~4×</em></li>
+              <li><span>Maximum</span><div class="sbar"><i data-w="60"></i></div><em class="mono">~3×</em></li>
             </ul>
-            <p class="foot mono">× real time, live action, RTX 5060</p>
+            <p class="foot mono">× real time, 1080p, RTX 5060. Decoding uses your CPU too.</p>
           </article>
 
           <article class="card spot b-lang reveal" style="--d:1">
             <h3>16 languages</h3>
             <p>Including right-to-left layout for Arabic.</p>
-            <div class="lang-marq" aria-hidden="true">
-              <div class="lang-track" id="langTrack">
-                <span>Azərbaycanca</span><span>English</span><span>Türkçe</span><span>Русский</span><span>Українська</span><span>Deutsch</span><span>Français</span><span>Español</span><span>Português</span><span>Italiano</span><span>Polski</span><span>中文</span><span>日本語</span><span>한국어</span><span>العربية</span><span>हिन्दी</span>
-              </div>
+            <div class="flags" id="flags">
+                <button class="flag" type="button" data-name="Azərbaycanca" aria-label="Azərbaycanca"><img src="flags/az.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="English" aria-label="English"><img src="flags/gb.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Türkçe" aria-label="Türkçe"><img src="flags/tr.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Русский" aria-label="Русский"><img src="flags/ru.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Українська" aria-label="Українська"><img src="flags/ua.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Deutsch" aria-label="Deutsch"><img src="flags/de.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Français" aria-label="Français"><img src="flags/fr.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Español" aria-label="Español"><img src="flags/es.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Português" aria-label="Português"><img src="flags/br.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Italiano" aria-label="Italiano"><img src="flags/it.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="Polski" aria-label="Polski"><img src="flags/pl.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="中文" aria-label="中文"><img src="flags/cn.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="日本語" aria-label="日本語"><img src="flags/jp.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="한국어" aria-label="한국어"><img src="flags/kr.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="العربية" aria-label="العربية"><img src="flags/sa.svg" alt="" width="36" height="36" loading="lazy" /></button>
+                <button class="flag" type="button" data-name="हिन्दी" aria-label="हिन्दी"><img src="flags/in.svg" alt="" width="36" height="36" loading="lazy" /></button>
             </div>
+            <p class="flag-name mono" id="flagName" aria-live="polite">Azərbaycanca</p>
           </article>
 
           <article class="card spot b-export reveal" style="--d:2">
@@ -205,7 +219,7 @@
     <!-- STATS -->
     <section class="stats" aria-label="Numbers">
       <div class="wrap stats-in">
-        <div class="stat"><b class="count" data-to="15" data-suffix="×">0</b><span>real-time speed on a mid-range GPU (Balanced)</span></div>
+        <div class="stat"><b class="count" data-to="4" data-suffix="×">0</b><span>real-time speed on an RTX 5060, 1080p (Balanced)</span></div>
         <div class="stat"><b class="count" data-to="16">0</b><span>interface languages</span></div>
         <div class="stat"><b class="count" data-to="10">0</b><span>characters found in the 5-minute demo film</span></div>
         <div class="stat"><b class="count" data-to="0">0</b><span>bytes uploaded while it works</span></div>
@@ -308,6 +322,7 @@ cd splitcast
   <script src="main.js"></script>
 </body>
 </html>
+
 
 
 

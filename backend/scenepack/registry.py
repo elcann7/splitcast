@@ -107,7 +107,7 @@ class PresetSpec:
     flipAugment: bool
     refine: bool
     thresholds: Thresholds
-    speedFactor: float = 1.0   # measured on the RTX 5060 with 1080p footage (README of the hand-back has the table)
+    speedFactor: float = 1.0   # x real time for live action: 1080p H.264 on an RTX 5060 measured 2.2-4.7x; kept on the cautious side so ETAs are not optimistic
     identity: IdentityTh = IdentityTh()
     content: str = "live"      # live | anime: which engine (faces.make_engine) reads the footage
 
@@ -132,11 +132,11 @@ ANIME_PRESETS = {
 
 PRESETS = {
     "fast": PresetSpec("fast", "content", "scrfd_500m", "arcface_mbf", 2.0, 640, False, False,
-                       Thresholds(0.60, 0.30, 0.32, 0.45, 0.50, 0.42), 25.0, IdentityTh()),
+                       Thresholds(0.60, 0.30, 0.32, 0.45, 0.50, 0.42), 5.0, IdentityTh()),
     "balanced": PresetSpec("balanced", "transnetv2", "scrfd_10g", "arcface_r50", 4.0, 640, False, True,
-                           Thresholds(0.55, 0.25, 0.38, 0.42, 0.55), 15.0, IdentityTh()),
+                           Thresholds(0.55, 0.25, 0.38, 0.42, 0.55), 4.0, IdentityTh()),
     "max": PresetSpec("max", "transnetv2", "scrfd_10g_v2", "arcface_r100", 8.0, 960, True, True,
-                      Thresholds(0.55, 0.25, 0.38, 0.42, 0.55), 6.0, IdentityTh()),
+                      Thresholds(0.55, 0.25, 0.38, 0.42, 0.55), 3.0, IdentityTh()),
 }
 
 

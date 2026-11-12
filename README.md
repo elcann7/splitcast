@@ -1,4 +1,4 @@
-﻿<p align="center">
+<p align="center">
   <img src="site/logo.svg" width="72" alt="Splitcast logo" />
 </p>
 
@@ -80,11 +80,11 @@ Think of it as the tool you wish came with every scenepack you've ever downloade
 
 | Level | Shots | Faces | Recognition | Speed* |
 |---|---|---|---|---|
-| **Fast** | content-adaptive | SCRFD-500MF @640 | ArcFace MobileFaceNet | ~25× real time |
-| **Balanced** | TransNetV2 | SCRFD-10GF @640 | ArcFace R50 | ~15× |
-| **Maximum** | TransNetV2 | SCRFD-10GF @960 | ArcFace R100 (Glint360K) + flip | ~6× |
+| **Fast** | content-adaptive | SCRFD-500MF @640 | ArcFace MobileFaceNet | ~5× real time |
+| **Balanced** | TransNetV2 | SCRFD-10GF @640 | ArcFace R50 | ~4× |
+| **Maximum** | TransNetV2 | SCRFD-10GF @960 | ArcFace R100 (Glint360K) + flip | ~3× |
 
-<sub>* Live action, measured on an RTX 5060. Your numbers will vary with the GPU and the footage.</sub>
+<sub>* Live action, 1080p H.264 on an RTX 5060 (measured 2–5× real time, so a 50-minute episode takes roughly 10–20 minutes). Decoding runs on the CPU, so a busy computer is slower. Your numbers will vary.</sub>
 
 Anime mode uses the [deepghs](https://huggingface.co/deepghs) anime face detector (YOLOv8) and CCIP character embeddings instead of the face models above.
 

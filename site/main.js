@@ -210,6 +210,20 @@
     }, 2800);
   }, 0.5);
 
+
+  /* ---------- languages card: flags light up one by one; hover shows the name ---------- */
+  const flags = $$("#flags .flag"), flagName = $("#flagName");
+  if (flags.length) {
+    let i = 0, hovering = false;
+    const light = (n) => { flags.forEach((f, k) => f.classList.toggle("on", k === n)); flagName.textContent = flags[n].dataset.name; };
+    flags.forEach((f, k) => {
+      f.addEventListener("pointerenter", () => { hovering = true; i = k; light(k); });
+      f.addEventListener("pointerleave", () => (hovering = false));
+      f.addEventListener("focus", () => light(k));
+    });
+    light(0);
+    if (!reduce) setInterval(() => { if (!hovering) { i = (i + 1) % flags.length; light(i); } }, 1500);
+  }
   /* ---------- copy button ---------- */
   const copy = $("#copy");
   copy?.addEventListener("click", async () => {
@@ -220,5 +234,6 @@
     setTimeout(() => { copy.textContent = "copy"; copy.classList.remove("done"); }, 1600);
   });
 })();
+
 
 
