@@ -78,6 +78,8 @@ class CcipRecognizer:
         if not crops:
             return np.zeros((0, self.dim), np.float32)
         out = []
+        if self.provider == "dml":
+            batch = 1  # the DirectML provider fails on batches larger than 1 for these models (verified with ArcFace)
         for i in range(0, len(crops), batch):
             x = (np.stack(crops[i:i + batch]).astype(np.float32) / 255.0 - _MEAN) / _STD
             out.append(_l2(self.sess.run(None, {self.input_name: np.ascontiguousarray(x.transpose(0, 3, 1, 2))})[0]))

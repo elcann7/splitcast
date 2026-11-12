@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { estimateExportSec, fmtEstimate } from "../lib/exportEstimate";
+import { ENCODER_NAME } from "../lib/encoder";
 import { Check } from "lucide-react";
 import { api } from "../api";
 import type { ExportOptionsT, ExportRequest } from "../api";
@@ -67,14 +68,14 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
   }
 
   const phase = !jobId ? "options" : !job || job.status === "queued" || job.status === "running" ? "running" : job.status;
-  const nvenc = system?.ffmpeg.nvenc;
+  const encoder = system?.ffmpeg.encoder ?? null;
   const merged = opts.mode === "merged";
   const blocked = merged && opts.codec === "copy" && diffs.length > 0;
   const conforms = merged && opts.codec !== "copy" && (diffs.includes("size") || diffs.includes("fps"));
   const vids = `${involved.length} video`;
   const encodes = opts.codec === "h264" || opts.codec === "hevc";
   const estimate = fmtEstimate(
-    estimateExportSec({ codec: opts.codec, quality: opts.quality, merged, nvenc: !!nvenc, clips: items.length, pictureSec: totalSec }),
+    estimateExportSec({ codec: opts.codec, quality: opts.quality, merged, nvenc: !!encoder, clips: items.length, pictureSec: totalSec }),
     { h: t("unit.h"), min: t("unit.min"), sec: t("unit.sec") },
   );
   const sep = dir.includes("/") && !dir.includes("\\") ? "/" : "\\";
@@ -235,8 +236,8 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
             {system && !system.ffmpeg.ok
               ? t("export.noFfmpeg")
               : encodes
-                ? nvenc
-                  ? t("export.nvenc")
+                ? encoder
+                  ? t("export.nvenc", { enc: ENCODER_NAME[encoder] })
                   : t("export.noNvenc")
                 : null}
           </div>

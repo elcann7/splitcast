@@ -26,23 +26,54 @@ def safe_name(s: str, fallback: str = "Scenepack") -> str:
     return (s[:80] or fallback)
 
 
-def _video_args(codec: str, quality: str, nvenc: bool, ten_bit: bool) -> list[str]:
+def _video_args(codec: str, quality: str, hw: str | None, ten_bit: bool) -> list[str]:
+    """Encoder arguments. `hw` is the GPU encoder to use ("nvenc", "amf", "qsv") or None for the CPU encoder.
+
+    NVENC is the tested path. AMF and QSV are used only after a real test encode with exactly these arguments
+    succeeds on the machine (see ffmpeg.encoder_works); otherwise the CPU encoder is used, which is slower but safe."""
     master = quality == "master"
     if codec == "h264":
-        if nvenc:
+        if hw == "nvenc":
             return ["-c:v", "h264_nvenc", "-preset", "p5", "-tune", "hq", "-rc", "vbr", "-cq", "12" if master else "16",
                     "-b:v", "0", "-spatial-aq", "1", "-pix_fmt", "yuv420p"]
+        if hw == "amf":
+            q = ("14", "16", "18") if master else ("18", "20", "22")
+            return ["-c:v", "h264_amf", "-quality", "quality", "-rc", "cqp", "-qp_i", q[0], "-qp_p", q[1], "-qp_b", q[2],
+                    "-pix_fmt", "yuv420p"]
+        if hw == "qsv":
+            return ["-c:v", "h264_qsv", "-preset", "slow", "-global_quality", "14" if master else "18", "-pix_fmt", "nv12"]
         return ["-c:v", "libx264", "-preset", "medium", "-crf", "12" if master else "16", "-pix_fmt", "yuv420p"]
     if codec == "hevc":
-        pix = "p010le" if (ten_bit and nvenc) else "yuv420p10le" if ten_bit else "yuv420p"
-        if nvenc:
+        pix = "p010le" if (ten_bit and hw == "nvenc") else "yuv420p10le" if ten_bit else "yuv420p"
+        if hw == "nvenc":
             return ["-c:v", "hevc_nvenc", "-preset", "p5", "-tune", "hq", "-rc", "vbr", "-cq", "14" if master else "18",
                     "-b:v", "0", "-tag:v", "hvc1", "-pix_fmt", pix]
+        if hw == "amf":
+            q = ("16", "18", "20") if master else ("20", "22", "24")
+            return ["-c:v", "hevc_amf", "-quality", "quality", "-rc", "cqp", "-qp_i", q[0], "-qp_p", q[1], "-qp_b", q[2],
+                    "-tag:v", "hvc1", "-pix_fmt", "yuv420p"]
+        if hw == "qsv":
+            return ["-c:v", "hevc_qsv", "-preset", "slow", "-global_quality", "16" if master else "20", "-tag:v", "hvc1",
+                    "-pix_fmt", "nv12"]
         return ["-c:v", "libx265", "-preset", "medium", "-crf", "14" if master else "18", "-tag:v", "hvc1",
                 "-pix_fmt", pix]
     if codec == "prores":
         return ["-c:v", "prores_ks", "-profile:v", "3", "-vendor", "apl0", "-pix_fmt", "yuv422p10le"]
     raise ProjectError("bad_request", f"Naməlum kodek: {codec}")
+
+
+def video_args_for(codec: str, quality: str, ten_bit: bool) -> list[str]:
+    """The arguments to use on this machine: the GPU encoder when it works for this exact case, else the CPU encoder."""
+    if codec not in ("h264", "hevc"):
+        return _video_args(codec, quality, None, ten_bit)
+    hw = ffmpeg.hw_encoder()
+    if hw == "nvenc":
+        return _video_args(codec, quality, hw, ten_bit)
+    if hw in ("amf", "qsv") and not ten_bit:  # 10-bit goes to the CPU encoder: not worth the risk on untested encoders
+        args = _video_args(codec, quality, hw, ten_bit)
+        if ffmpeg.encoder_works(tuple(args)):
+            return args
+    return _video_args(codec, quality, None, ten_bit)
 
 
 def _is_10bit(path: str) -> bool:
@@ -199,7 +230,6 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
     copy = codec == "copy"
     merged = req.get("mode") == "merged"
     audio = bool(req.get("audio", True)) and any(pt.info.get("hasAudio") for pt in parts)
-    nvenc = ffmpeg.nvenc_available()
     multi = len(p["sources"]) > 1
 
     out_dir = Path(req.get("outputDir") or settings.load()["exportDir"]) / safe_name(p["title"]) / safe_name(char["name"])
@@ -222,7 +252,7 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
             info, src = pt.info, pt.info["path"]
             has_audio = audio and info.get("hasAudio", False)
             ext = _copy_ext(info, has_audio) if copy else (".mov" if codec == "prores" else ".mp4")
-            vargs = [] if copy else _video_args(codec, req.get("quality", "high"), nvenc, _is_10bit(src))
+            vargs = [] if copy else video_args_for(codec, req.get("quality", "high"), _is_10bit(src))
             aargs = ["-c:a", "pcm_s16le"] if codec == "prores" else ["-c:a", "aac", "-b:a", "256k"]
             base = (f"{safe_name(char['name'])} - {safe_name(pt.source['label'])}" if multi
                     else f"{safe_name(p['title'])} - {safe_name(char['name'])}")
@@ -235,7 +265,7 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
                 finished(done)
     else:
         ext = _copy_ext(ref, audio) if copy else (".mov" if codec == "prores" else ".mp4")
-        vargs = [] if copy else _video_args(codec, req.get("quality", "high"), nvenc, _is_10bit(ref["path"]))
+        vargs = [] if copy else video_args_for(codec, req.get("quality", "high"), _is_10bit(ref["path"]))
         tmp = paths.TMP_DIR / f"export_{job.id}"
         tmp.mkdir(parents=True, exist_ok=True)
         try:

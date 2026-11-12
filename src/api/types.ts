@@ -7,8 +7,8 @@ export type ContentKind = "live" | "anime";
 
 export interface SystemInfo {
   version: string;
-  device: { provider: "cuda" | "cpu"; gpuName: string | null; vramMb: number | null; note: string | null };
-  ffmpeg: { ok: boolean; version: string | null; nvenc: boolean };
+  device: { provider: "cuda" | "dml" | "cpu"; gpuName: string | null; vramMb: number | null; note: string | null };
+  ffmpeg: { ok: boolean; version: string | null; nvenc: boolean; encoder: "nvenc" | "amf" | "qsv" | null };
   presets: Preset[];
   paths: { data: string; defaultExportDir: string };
 }

@@ -180,6 +180,8 @@ class Recognizer:
         if not crops:
             return np.zeros((0, self.dim), np.float32)
         out = []
+        if self.provider == "dml":
+            batch = 1  # the DirectML provider fails on batches larger than 1 for these models (verified)
         for i in range(0, len(crops), batch):
             x = np.stack(crops[i:i + batch]).astype(np.float32)
             x = ((x - 127.5) / 127.5).transpose(0, 3, 1, 2)

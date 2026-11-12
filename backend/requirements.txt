@@ -1,14 +1,4 @@
-# Installed into %LOCALAPPDATA%\ScenepackStudio\venv by setup.ps1
-# onnxruntime-gpu (1.26+ wheels on PyPI target CUDA 13, which is what Blackwell/driver 610 needs);
-# the [cuda,cudnn] extras pull the matching NVIDIA runtime DLL wheels, loaded via onnxruntime.preload_dlls().
+# NVIDIA build (CUDA). onnxruntime-gpu 1.26+ wheels on PyPI target CUDA 13; the [cuda,cudnn] extras pull the matching
+# NVIDIA runtime DLL wheels, loaded via onnxruntime.preload_dlls().
+-r requirements-base.txt
 onnxruntime-gpu[cuda,cudnn]>=1.26
-numpy>=2.0
-scipy>=1.11
-av>=14.0
-opencv-python-headless>=4.10
-pillow>=10.0
-flask>=3.0
-flask-cors>=5.0
-waitress>=3.0
-requests>=2.31
-pywebview>=5.0

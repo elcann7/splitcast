@@ -29,7 +29,7 @@ def system_info() -> dict:
     return {
         "version": __version__,
         "device": runtime.device_info(),
-        "ffmpeg": {"ok": ffmpeg.available(), "version": ffmpeg.version(), "nvenc": ffmpeg.nvenc_available()},
+        "ffmpeg": {"ok": ffmpeg.available(), "version": ffmpeg.version(), "nvenc": ffmpeg.nvenc_available(), "encoder": ffmpeg.hw_encoder()},
         "presets": [preset_info(s) for s in registry.all_presets()],
         "paths": {"data": str(paths.DATA_DIR), "defaultExportDir": str(paths.default_export_dir())},
     }

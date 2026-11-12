@@ -1,0 +1,4 @@
+# AMD / Intel / any DirectX 12 GPU build. onnxruntime-directml replaces onnxruntime-gpu; never install both.
+-r requirements-base.txt
+onnxruntime-directml>=1.20
+onnx>=1.16   # fixes input shapes for DirectML (see runtime._static_dml_session)

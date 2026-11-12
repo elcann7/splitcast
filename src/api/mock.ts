@@ -495,7 +495,7 @@ const presetInstalled = new Set<PresetId>(["fast", "balanced"]);
 const system = (): SystemInfo => ({
   version: "0.1.0-mock",
   device: { provider: "cuda", gpuName: "NVIDIA GeForce RTX 5060", vramMb: 8151, note: null },
-  ffmpeg: { ok: true, version: "7.1.1-essentials", nvenc: true },
+  ffmpeg: { ok: true, version: "7.1.1-essentials", nvenc: true, encoder: "nvenc" },
   presets: [
     { id: "fast", content: "live", shotDetector: "Content-adaptive", faceDetector: "SCRFD-500MF @640", faceRecognizer: "ArcFace MobileFaceNet", sampleFps: 2, installed: presetInstalled.has("fast"), downloadMb: presetInstalled.has("fast") ? 0 : 38, speedFactor: 14 },
     { id: "balanced", content: "live", shotDetector: "TransNetV2", faceDetector: "SCRFD-10GF @640", faceRecognizer: "ArcFace R50", sampleFps: 4, installed: presetInstalled.has("balanced"), downloadMb: presetInstalled.has("balanced") ? 0 : 211, speedFactor: 6.5 },

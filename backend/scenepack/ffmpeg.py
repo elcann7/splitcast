@@ -33,19 +33,39 @@ def version() -> str | None:
         return None
 
 
-@lru_cache(maxsize=1)
-def nvenc_available() -> bool:
-    """True only if an NVENC encode really succeeds on this machine (not just listed in -encoders)."""
-    if not available():
-        return False
+def _try_encode(args: tuple[str, ...]) -> bool:
+    """A real 0.3 s encode with these encoder arguments. True only if it succeeds on this machine."""
     try:
         r = subprocess.run(
-            [str(paths.ffmpeg_exe()), "-hide_banner", "-v", "error", "-f", "lavfi", "-i", "color=black:s=320x240:d=0.2",
-             "-c:v", "h264_nvenc", "-f", "null", "-"],
-            capture_output=True, timeout=30, creationflags=NO_WINDOW)
+            [str(paths.ffmpeg_exe()), "-hide_banner", "-v", "error", "-f", "lavfi", "-i", "color=black:s=640x360:r=30:d=0.3",
+             *args, "-f", "null", "-"],
+            capture_output=True, timeout=45, creationflags=NO_WINDOW)
         return r.returncode == 0
     except Exception:
         return False
+
+
+@lru_cache(maxsize=32)
+def encoder_works(args: tuple[str, ...]) -> bool:
+    return available() and _try_encode(args)
+
+
+@lru_cache(maxsize=1)
+def hw_encoder() -> str | None:
+    """The GPU video encoder that really works here: "nvenc" (NVIDIA), "amf" (AMD) or "qsv" (Intel), else None.
+
+    Listed in -encoders is not enough (an NVENC build runs on a machine without an NVIDIA card), so each one is
+    tried with a real encode, in that order."""
+    if not available():
+        return None
+    for name, enc in (("nvenc", "h264_nvenc"), ("amf", "h264_amf"), ("qsv", "h264_qsv")):
+        if encoder_works(("-c:v", enc, "-pix_fmt", "yuv420p")):
+            return name
+    return None
+
+
+def nvenc_available() -> bool:
+    return hw_encoder() == "nvenc"
 
 
 def _hms_to_s(s: str) -> float:

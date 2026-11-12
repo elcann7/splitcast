@@ -1,10 +1,18 @@
-﻿; Splitcast installer (Inno Setup 6). Build with installer\build.ps1, which stages installer\build\{runtime,app} first.
+; Splitcast installer (Inno Setup 6). Build with installer\build.ps1, which stages installer\build\{runtime,app} first.
 ; Self-contained, like any pro desktop app: embedded Python, the AI runtime (onnxruntime-gpu + CUDA libraries),
 ; ffmpeg and the default models are all inside. Nothing is downloaded while installing (only the WebView2
 ; runtime, and only when Windows does not have it). install_components.cmd is kept for "repair".
 
 #ifndef AppVersion
   #define AppVersion "0.1.0"
+#endif
+#ifndef Variant
+  #define Variant "cuda"
+#endif
+#if Variant == "directml"
+  #define VariantLabel "AMD-Intel"
+#else
+  #define VariantLabel "NVIDIA"
 #endif
 
 [Setup]
@@ -18,7 +26,7 @@ DefaultGroupName=Splitcast
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=Output
-OutputBaseFilename=Splitcast-Setup-{#AppVersion}
+OutputBaseFilename=Splitcast-Setup-{#VariantLabel}-{#AppVersion}
 SetupIconFile=..\branding\app.ico
 UninstallDisplayIcon={app}\runtime\Splitcast.exe
 UninstallDisplayName=Splitcast

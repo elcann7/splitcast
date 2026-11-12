@@ -1,4 +1,4 @@
-﻿<#
+<#
   Builds installer\Output\Splitcast-Setup-<version>.exe.
 
     1. builds the UI (npm run build)
@@ -10,7 +10,11 @@
   Needs: Node 20+, Inno Setup 6 (preinstalled on GitHub's windows runners). Heavy wheels are NOT bundled;
   the installer downloads them at install time (see install_components.cmd).
 #>
-param([string]$Version)
+param(
+    [string]$Version,
+    # cuda: NVIDIA GPUs (onnxruntime-gpu + CUDA). directml: AMD, Intel and any DirectX 12 GPU (onnxruntime-directml).
+    [ValidateSet('cuda', 'directml')][string]$Variant = 'cuda'
+)
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
@@ -74,8 +78,12 @@ foreach ($f in 'README.md', 'LICENSE') { if (Test-Path (Join-Path $Root $f)) { C
 
 # --- 3b. bundle the AI runtime, ffmpeg and the default models ------------------
 # Like a pro desktop app, the installer is self-contained: nothing is downloaded while installing.
-Step 'Python packages incl. onnxruntime-gpu and the CUDA runtime (~2.3 GB unpacked)'
+Step "Python packages ($Variant)"
 $py = Join-Path $rt 'python.exe'
+if ($Variant -eq 'directml') {
+    # the staged requirements.txt is what the runtime installs and what 'repair' reinstalls
+    Copy-Item (Join-Path $Root 'backend/requirements-directml.txt') (Join-Path $app 'backend/requirements.txt') -Force
+}
 # a few small dependencies (proxy_tools) ship as source and need a build backend; get-pip does not install one
 & $py -m pip install --disable-pip-version-check --no-warn-script-location setuptools wheel
 if ($LASTEXITCODE) { throw 'pip install setuptools failed' }
@@ -100,9 +108,10 @@ $iscc = @(
     "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 ) | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
 if (-not $iscc) { throw 'Inno Setup 6 was not found. Install it (winget install JRSoftware.InnoSetup).' }
-& $iscc "/DAppVersion=$Version" (Join-Path $Here 'splitcast.iss')
+& $iscc "/DAppVersion=$Version" "/DVariant=$Variant" (Join-Path $Here 'splitcast.iss')
 if ($LASTEXITCODE) { throw 'ISCC failed' }
 
-$out = Join-Path $Here "Output\Splitcast-Setup-$Version.exe"
+$label = if ($Variant -eq 'directml') { 'AMD-Intel' } else { 'NVIDIA' }
+$out = Join-Path $Here "Output\Splitcast-Setup-$label-$Version.exe"
 Write-Host ("`nDone: {0}  ({1:N1} MB)" -f $out, ((Get-Item $out).Length / 1MB)) -ForegroundColor Green
 

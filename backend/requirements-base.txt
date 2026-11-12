@@ -1,0 +1,11 @@
+# Shared by both builds (NVIDIA / DirectML). The ONNX Runtime wheel is chosen by requirements.txt or requirements-directml.txt.
+numpy>=2.0
+scipy>=1.11
+av>=14.0
+opencv-python-headless>=4.10
+pillow>=10.0
+flask>=3.0
+flask-cors>=5.0
+waitress>=3.0
+requests>=2.31
+pywebview>=5.0

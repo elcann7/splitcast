@@ -91,22 +91,41 @@ Anime mode uses the [deepghs](https://huggingface.co/deepghs) anime face detecto
 
 ## Install
 
-1. Download **`Splitcast-Setup-x.y.z.exe`** from the [latest release](https://github.com/elcann7/splitcast/releases/latest).
-2. Run it. No admin rights, no Python, no internet needed while installing: the app, the AI runtime (onnxruntime-gpu with the CUDA libraries), ffmpeg and the Balanced models are all inside, so the file is large (about 2 GB).
-3. Open **Splitcast** from the Start menu.
+Pick the installer for your graphics card from the [latest release](https://github.com/elcann7/splitcast/releases/latest):
 
-Windows may show a SmartScreen notice because the installer is not code-signed yet. Choose *More info → Run anyway*.
+| Your GPU | Download | Size | Status |
+|---|---|---|---|
+| **NVIDIA** (GeForce, RTX, Quadro) | `Splitcast-Setup-NVIDIA-x.y.z.exe` | ~1.5 GB | Tested on an RTX 5060 |
+| **AMD**, **Intel** (Arc or integrated) or any other DirectX 12 GPU | `Splitcast-Setup-AMD-Intel-x.y.z.exe` | ~0.6 GB | **Experimental**, see below |
+
+Not sure? Press Win+R, type `dxdiag`, open the *Display* tab and read the name of your card.
+
+1. Run the installer. No admin rights, no Python, no internet needed while installing: the app, the AI runtime, ffmpeg and the Balanced models are all inside.
+2. Open **Splitcast** from the Start menu.
+
+Windows may show a SmartScreen notice because the installers are not code-signed yet. Choose *More info → Run anyway*.
 
 Fast, Maximum and the anime models are not in the installer; Splitcast downloads them once, the first time you pick that quality.
 
 User data (projects, models, settings, log) lives in `%LOCALAPPDATA%\Splitcast`. Uninstalling asks whether to delete it.
 
+### About the AMD / Intel build
+
+It uses **DirectML**, which runs the same models on any DirectX 12 GPU. What has been verified and what has not:
+
+- **Verified:** the whole analysis pipeline runs through DirectML and finds the same characters as the NVIDIA build (tested on an NVIDIA card through DirectML; about 4× real time on Balanced).
+- **Not verified:** no AMD or Intel card has been available for testing. Driver differences may show up.
+- **It protects itself:** if a model fails on the GPU, that model continues on the CPU (slower, never broken). The reason is shown under *Settings → Compute*.
+- **Video export:** AMD (AMF) and Intel (Quick Sync) hardware encoders are used only if a real test encode succeeds on your machine; otherwise the CPU encoder is used.
+- To force the CPU (for troubleshooting), set the environment variable `SCENEPACK_FORCE_CPU=1`.
+
+If something does not work on your card, please open an issue and include the text from *Settings → Compute* and `%LOCALAPPDATA%\Splitcast\app.log`.
+
 ### Requirements
 
-- Windows 10 or 11 (64-bit)
-- An NVIDIA GPU with a recent driver (CUDA). Developed on an RTX 5060. Other GPUs fall back to the CPU, which works but is much slower; broader GPU support is on the roadmap.
+- Windows 10 (1903+) or 11, 64-bit
+- A graphics card as above. Without a usable GPU it falls back to the CPU, which works but is much slower.
 - About 6 GB of free disk space for the install plus your projects.
-
 ### Build from source
 
 ```powershell
@@ -165,7 +184,7 @@ The marketing site lives in [`site/`](site) and is plain HTML, CSS and JS. Open 
 
 ## Roadmap
 
-- DirectML support for non-NVIDIA GPUs
+- Real-hardware testing of the AMD / Intel build
 - Update check and an in-app error log
 - Real 10+ episode season testing, more anime testing
 

@@ -11,6 +11,7 @@ import { Input, Select } from "../ui/Fields";
 import { ErrorState, LoadingBlock, Progress } from "../ui/States";
 import { ExportOptions } from "./ExportOptions";
 import { ensureModels } from "../lib/models";
+import { ENCODER_NAME } from "../lib/encoder";
 import { fmtBytes } from "../lib/time";
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -87,13 +88,13 @@ export function SettingsScreen() {
                 </span>
               </Row>
               <Row label={t("settings.compute")} hint={dev.note ?? undefined}>
-                <span className="mono text-meta text-fg-1">{dev.provider === "cuda" ? t("settings.cuda") : t("settings.cpu")}</span>
+                <span className="mono text-meta text-fg-1">{dev.provider === "cuda" ? t("settings.cuda") : dev.provider === "dml" ? "DirectML (GPU)" : t("settings.cpu")}</span>
               </Row>
               <Row label={t("settings.ffmpeg")}>
                 <span className="mono text-meta text-fg-1">{system.ffmpeg.ok ? (system.ffmpeg.version ?? "ok") : t("settings.ffmpegMissing")}</span>
               </Row>
               <Row label={t("settings.nvenc")}>
-                <span className="mono text-meta text-fg-1">{system.ffmpeg.nvenc ? t("settings.yes") : t("settings.no")}</span>
+                <span className="mono text-meta text-fg-1">{system.ffmpeg.encoder ? ENCODER_NAME[system.ffmpeg.encoder] : t("settings.no")}</span>
               </Row>
             </Section>
 
