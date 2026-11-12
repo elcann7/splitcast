@@ -1,0 +1,12 @@
+node_modules/
+dist/
+exports/
+__pycache__/
+*.pyc
+_legacy_antigravity_backup.zip
+public/sample_demo.mp4
+
+# installer build output
+installer/build/
+installer/cache/
+installer/Output/

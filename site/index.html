@@ -1,0 +1,314 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Splitcast — one cast per character, cut from any film</title>
+  <meta name="description" content="Splitcast is a free, open-source Windows app. Drop in a film or a whole season and it finds every character, then exports their scenes as clean clips. Runs on your own GPU, offline." />
+  <meta name="theme-color" content="#0E0E0F" />
+  <meta property="og:title" content="Splitcast — one cast per character" />
+  <meta property="og:description" content="Free, open-source. Finds every character in a film or season and exports their scenes. Local AI, nothing uploaded." />
+  <meta property="og:image" content="shots/workspace-selected.webp" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#top" aria-label="Splitcast home">
+        <img src="logo.svg" alt="" width="26" height="26" />
+        <span>Splitcast</span>
+      </a>
+      <nav class="links" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#under-the-hood">Under the hood</a>
+        <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn ghost" data-repo href="#" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a class="btn primary" data-release href="#install">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <canvas id="dots" aria-hidden="true"></canvas>
+      <div class="hero-fade" aria-hidden="true"></div>
+      <div class="wrap hero-in">
+        <p class="eyebrow mono"><span class="shine">free · open source · runs offline</span></p>
+        <h1 class="display" id="headline">One film in.<br />One cast per character out.</h1>
+        <p class="lede">
+          Drop in a film, an episode or a whole season. Splitcast finds every person who appears,
+          groups their shots, and exports each character’s scenes as clean clips — ready for your edit.
+          The AI runs on your own graphics card. Nothing is uploaded.
+        </p>
+        <div class="hero-cta">
+          <a class="btn primary lg" data-release href="#install">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 19h16"/></svg>
+            Download for Windows
+          </a>
+          <a class="btn ghost lg" data-repo href="#" rel="noopener">View on GitHub</a>
+        </div>
+        <p class="fine mono">Windows 10/11 · NVIDIA GPU · 16 languages</p>
+      </div>
+
+      <div class="wrap stage-wrap">
+        <div class="stage" id="stage">
+          <div class="win" id="win">
+            <div class="win-bar">
+              <img src="logo.svg" alt="" width="14" height="14" />
+              <span class="mono">Splitcast — Tears of Steel</span>
+              <span class="win-hint mono" id="hint"><i></i>click a character</span>
+            </div>
+            <div class="win-body">
+              <img class="shot on" src="shots/char-1.webp" alt="Splitcast workspace showing the scenes of one character" width="2160" height="1350" id="shotA" />
+              <img class="shot" src="shots/char-2.webp" alt="" width="2160" height="1350" id="shotB" />
+              <button class="hot" style="--i:0" data-shot="1" aria-label="Show Thom’s scenes"></button>
+              <button class="hot" style="--i:1" data-shot="2" aria-label="Show Celia’s scenes"></button>
+              <button class="hot" style="--i:2" data-shot="3" aria-label="Show Barley’s scenes"></button>
+              <button class="hot" style="--i:3" data-shot="4" aria-label="Show Captain’s scenes"></button>
+            </div>
+          </div>
+          <p class="caption mono">Real screenshot. Footage: <a href="https://mango.blender.org" rel="noopener">Tears of Steel</a> (CC-BY, Blender Foundation).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="marquee" aria-label="Highlights">
+      <div class="track" id="track">
+        <span>offline</span><span>your GPU</span><span>no account</span><span>films</span><span>series</span><span>whole seasons</span><span>anime mode</span><span>frame-accurate</span><span>H.264 · HEVC · ProRes</span><span>16 languages</span><span>open source</span><span>free</span>
+        <span>offline</span><span>your GPU</span><span>no account</span><span>films</span><span>series</span><span>whole seasons</span><span>anime mode</span><span>frame-accurate</span><span>H.264 · HEVC · ProRes</span><span>16 languages</span><span>open source</span><span>free</span>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="sec" id="how">
+      <div class="wrap">
+        <p class="eyebrow mono">/how-it-works</p>
+        <h2 class="h2 reveal">Three steps. The middle one is the computer’s.</h2>
+        <div class="steps">
+          <article class="card spot reveal" style="--d:0">
+            <div class="num mono">01</div>
+            <h3>Drop it in</h3>
+            <p>A film, an episode, or a pile of episodes. Pick <em>Live action</em> or <em>Anime</em> and one of three quality levels. Splitcast tells you roughly how long it will take before you commit.</p>
+            <div class="thumb"><img loading="lazy" src="shots/new-project.webp" alt="New project dialog with quality presets" width="1040" height="1092" style="--w:100%" /></div>
+          </article>
+          <article class="card spot reveal" style="--d:1">
+            <div class="num mono">02</div>
+            <h3>It finds the cast</h3>
+            <p>Shots are detected, faces are tracked through each shot, and tracks are grouped into characters. Two faces in the same shot are never merged. You get a list, ranked by screen time.</p>
+            <div class="thumb"><img loading="lazy" src="shots/workspace.webp" alt="Character list and scene grid" width="2160" height="1350" style="--w:230%;--x:0;--y:-6px" /></div>
+          </article>
+          <article class="card spot reveal" style="--d:2">
+            <div class="num mono">03</div>
+            <h3>Pick, trim, export</h3>
+            <p>Click through scenes, set In and Out to the frame, then export as separate clips or one file. Copy the original stream, or re-encode with H.264, HEVC or ProRes.</p>
+            <div class="thumb"><img loading="lazy" src="shots/export.webp" alt="Export dialog" width="2160" height="1350" style="--w:200%;--x:-56%;--y:-34px" /></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOWCASE -->
+    <section class="sec show">
+      <div class="wrap">
+        <div class="show-grid">
+          <div class="show-text reveal">
+            <p class="eyebrow mono">/review</p>
+            <h2 class="h2">Review fast. Trim to the frame.</h2>
+            <ul class="ticks">
+              <li><b>Space</b> plays, <b>I</b> and <b>O</b> set the cut, <b>← →</b> change scene.</li>
+              <li>The strip under the grid shows where the character appears in the film.</li>
+              <li>Filter by shot size (close, medium, wide), solo shots only, minimum length.</li>
+              <li>Wrong match? Move scenes to another character, or merge two characters.</li>
+            </ul>
+          </div>
+          <div class="show-shot reveal" style="--d:1">
+            <div class="frame">
+              <img loading="lazy" src="shots/workspace-selected.webp" alt="Three scenes selected with a trim preview" width="2160" height="1350" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="sec" id="features">
+      <div class="wrap">
+        <p class="eyebrow mono">/features</p>
+        <h2 class="h2 reveal">Made for people who cut things together.</h2>
+
+        <div class="bento">
+          <article class="card spot b-seasons reveal">
+            <h3>Seasons, not just films</h3>
+            <p>Add every episode to one project. A character keeps the same identity from episode to episode, so you get one scenepack per character for the whole season.</p>
+            <div class="eps" id="eps" aria-hidden="true">
+              <div class="ep"><span class="mono">E01</span><div class="bar"><i style="left:8%"></i><i style="left:31%"></i><i style="left:62%"></i><i style="left:77%"></i></div></div>
+              <div class="ep"><span class="mono">E02</span><div class="bar"><i style="left:14%"></i><i style="left:40%"></i><i style="left:55%"></i><i style="left:90%"></i></div></div>
+              <div class="ep"><span class="mono">E03</span><div class="bar"><i style="left:5%"></i><i style="left:22%"></i><i style="left:48%"></i><i style="left:71%"></i></div></div>
+            </div>
+          </article>
+
+          <article class="card spot b-anime reveal" style="--d:1">
+            <h3>Anime mode</h3>
+            <p>Drawn faces are a different problem. A dedicated model looks at hair, eyes and outfit instead of facial geometry.</p>
+            <div class="chips" aria-hidden="true"><span>hair</span><span>eyes</span><span>outfit</span><span>face</span></div>
+          </article>
+
+          <article class="card spot b-presets reveal" style="--d:0">
+            <h3>Pick your speed</h3>
+            <p>Three quality levels. Slower means fewer mix-ups between similar faces.</p>
+            <ul class="speed" id="speed" aria-hidden="true">
+              <li><span>Fast</span><div class="sbar"><i data-w="100"></i></div><em class="mono">~25×</em></li>
+              <li><span>Balanced</span><div class="sbar"><i data-w="60"></i></div><em class="mono">~15×</em></li>
+              <li><span>Maximum</span><div class="sbar"><i data-w="24"></i></div><em class="mono">~6×</em></li>
+            </ul>
+            <p class="foot mono">× real time, live action, RTX 5060</p>
+          </article>
+
+          <article class="card spot b-lang reveal" style="--d:1">
+            <h3>16 languages</h3>
+            <p>Including right-to-left layout for Arabic.</p>
+            <div class="lang-marq" aria-hidden="true">
+              <div class="lang-track" id="langTrack">
+                <span>Azərbaycanca</span><span>English</span><span>Türkçe</span><span>Русский</span><span>Українська</span><span>Deutsch</span><span>Français</span><span>Español</span><span>Português</span><span>Italiano</span><span>Polski</span><span>中文</span><span>日本語</span><span>한국어</span><span>العربية</span><span>हिन्दी</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card spot b-export reveal" style="--d:2">
+            <h3>Cuts that land on the frame</h3>
+            <p>Copy the original stream for instant, lossless cuts, or re-encode when you need frame accuracy. NVENC is used when your card has it.</p>
+            <div class="codecs mono" aria-hidden="true"><span>original stream</span><span>H.264</span><span>HEVC</span><span>ProRes 422 HQ</span></div>
+          </article>
+
+          <article class="card spot b-private reveal" style="--d:0">
+            <div><h3>Nothing leaves your PC</h3>
+            <p>No account, no cloud, no telemetry. The installer carries everything, so analysis runs offline from the first minute.</p></div>
+            <pre class="log mono" id="log" aria-hidden="true"><span>shots      142</span><span>faces      1 904</span><span>characters 10</span><span class="ok">uploaded   0 bytes</span></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" aria-label="Numbers">
+      <div class="wrap stats-in">
+        <div class="stat"><b class="count" data-to="15" data-suffix="×">0</b><span>real-time speed on a mid-range GPU (Balanced)</span></div>
+        <div class="stat"><b class="count" data-to="16">0</b><span>interface languages</span></div>
+        <div class="stat"><b class="count" data-to="10">0</b><span>characters found in the 5-minute demo film</span></div>
+        <div class="stat"><b class="count" data-to="0">0</b><span>bytes uploaded while it works</span></div>
+      </div>
+    </section>
+
+    <!-- UNDER THE HOOD -->
+    <section class="sec" id="under-the-hood">
+      <div class="wrap">
+        <p class="eyebrow mono">/under-the-hood</p>
+        <h2 class="h2 reveal">What actually runs, and what to expect.</h2>
+        <div class="hood">
+          <div class="pipe reveal">
+            <ol class="mono">
+              <li><b>shots</b><span>TransNetV2 finds the cuts (or a content-adaptive detector on Fast)</span></li>
+              <li><b>faces</b><span>SCRFD detects faces on your GPU through ONNX Runtime + CUDA</span></li>
+              <li><b>identity</b><span>ArcFace embeddings; tracks grouped with cannot-link inside a shot</span></li>
+              <li><b>anime</b><span>YOLOv8 anime face detector + CCIP character embeddings</span></li>
+              <li><b>seasons</b><span>characters matched across episodes by several “looks” each</span></li>
+            </ol>
+          </div>
+          <div class="honest reveal" style="--d:1">
+            <h3>Things worth knowing</h3>
+            <ul>
+              <li><b>Windows + NVIDIA for now.</b> It uses CUDA. Other GPUs are on the list, not in the box.</li>
+              <li><b>Balanced models are inside the installer.</b> Fast, Maximum and the anime models download once, the first time you pick them.</li>
+              <li><b>Characters are numbered, not named.</b> It does not know who an actor is. You rename them.</li>
+              <li><b>Anime background extras can mix.</b> Leads are reliable; crowds are not.</li>
+              <li><b>Face models have their own licences.</b> InsightFace weights are for non-commercial research use; see the repository for details.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="sec" id="install">
+      <div class="wrap narrow">
+        <p class="eyebrow mono">/install</p>
+        <h2 class="h2 reveal">Download, double-click, done.</h2>
+        <ol class="inst reveal">
+          <li><b>Download</b> <a data-release href="#">Splitcast-Setup.exe</a> from the latest release. It is about 2 GB because everything is inside: the app, the AI runtime, ffmpeg and the models.</li>
+          <li><b>Run it.</b> No admin rights, no Python, no internet needed while installing.</li>
+          <li><b>Open Splitcast</b> from the Start menu and drop in a film.</li>
+        </ol>
+        <p class="fine mono reveal">Windows may show a “SmartScreen” notice because the installer is not code-signed yet. Choose “More info → Run anyway”.</p>
+        <details class="src reveal">
+          <summary class="mono">Prefer building from source?</summary>
+          <div class="code" id="code">
+            <button class="copy mono" id="copy" type="button">copy</button>
+<pre class="mono"><span class="c"># needs Python 3.12, Node 20+ and an NVIDIA driver</span>
+git clone <span data-repo-url>https://github.com/elcann7/splitcast</span>
+cd splitcast
+.\setup.ps1
+.\ScenepackStudio.bat</pre>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec" id="faq">
+      <div class="wrap narrow">
+        <p class="eyebrow mono">/faq</p>
+        <h2 class="h2 reveal">Questions people ask.</h2>
+        <div class="faq reveal">
+          <details open><summary>Is it really free?</summary><p>Yes. Open source, no account, no paid tier. If it saves you time, a star on GitHub is the nicest thanks.</p></details>
+          <details><summary>Does my footage leave my computer?</summary><p>No. Analysis and export run locally. The only network traffic is a one-time model download, when you pick a quality level whose models are not installed yet.</p></details>
+          <details><summary>Which graphics cards work?</summary><p>NVIDIA cards with CUDA support. It was developed on an RTX 5060. Without a supported GPU it will fall back to the CPU, which is much slower.</p></details>
+          <details><summary>Can it tell me the character’s name?</summary><p>No, and it does not try. Characters appear as “Character 01, 02…” ranked by screen time. Double-click to rename.</p></details>
+          <details><summary>What about animated films and anime?</summary><p>Choose <em>Anime</em> when you create the project. It uses a model trained for drawn characters. Leads work well; background crowds may get mixed.</p></details>
+          <details><summary>Can I cut a whole season?</summary><p>Yes. Add all the episodes to one project; each character is matched across episodes, so you export one scenepack per character for the season.</p></details>
+          <details><summary>Is it legal to use on films I don’t own?</summary><p>Splitcast is a tool; what you cut and what you do with it is your responsibility. Check the rights to the footage you use.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="cta">
+      <canvas id="squares" aria-hidden="true"></canvas>
+      <div class="wrap cta-in">
+        <h2 class="display sm">Cut your first cast.</h2>
+        <p class="lede">Free, offline, and yours.</p>
+        <div class="hero-cta center">
+          <a class="btn primary lg" data-release href="#install">Download for Windows</a>
+          <a class="btn ghost lg" data-repo href="#" rel="noopener">Star on GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot-bar">
+    <div class="wrap foot-in">
+      <a class="brand" href="#top"><img src="logo.svg" alt="" width="22" height="22" /><span>Splitcast</span></a>
+      <p class="mono">open source · made of local models · no telemetry</p>
+      <nav aria-label="Footer"><a data-repo href="#" rel="noopener">GitHub</a><a href="#faq">FAQ</a><a href="#top">Back to top ↑</a></nav>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
+
+
+
+
