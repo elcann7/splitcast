@@ -72,7 +72,7 @@ robocopy (Join-Path $Root 'backend') (Join-Path $app 'backend') /E /XD __pycache
 robocopy (Join-Path $Root 'dist') (Join-Path $app 'dist') /E /XF sample_demo.mp4 /NFL /NDL /NJH /NJS | Out-Null
 New-Item -ItemType Directory -Force (Join-Path $app 'branding') | Out-Null
 Copy-Item (Join-Path $Root 'branding\app.ico') (Join-Path $app 'branding')
-foreach ($f in 'README.md', 'LICENSE') { if (Test-Path (Join-Path $Root $f)) { Copy-Item (Join-Path $Root $f) $app } }
+foreach ($f in 'README.md', 'LICENSE', 'THIRD-PARTY.md') { if (Test-Path (Join-Path $Root $f)) { Copy-Item (Join-Path $Root $f) $app } }
 
 # --- 3b. bundle the AI runtime, ffmpeg and the default models ------------------
 # Like a pro desktop app, the installer is self-contained: nothing is downloaded while installing.

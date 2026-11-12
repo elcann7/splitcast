@@ -192,6 +192,6 @@ Fonts: Geist and Geist Mono. Models by the InsightFace, TransNetV2 and deepghs a
 
 ## Licence
 
-A licence will be added before the first release.
+Splitcast's code is released under the [MIT License](LICENSE). Some components it uses have their own terms, in particular the InsightFace face models (non-commercial research use) and the bundled GPL build of ffmpeg: see [THIRD-PARTY.md](THIRD-PARTY.md).
 
 
