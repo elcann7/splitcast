@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { estimateExportSec, fmtEstimate } from "../lib/exportEstimate";
 import { Check } from "lucide-react";
 import { api } from "../api";
 import type { ExportOptionsT, ExportRequest } from "../api";
@@ -72,6 +73,10 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
   const conforms = merged && opts.codec !== "copy" && (diffs.includes("size") || diffs.includes("fps"));
   const vids = `${involved.length} video`;
   const encodes = opts.codec === "h264" || opts.codec === "hevc";
+  const estimate = fmtEstimate(
+    estimateExportSec({ codec: opts.codec, quality: opts.quality, merged, nvenc: !!nvenc, clips: items.length, pictureSec: totalSec }),
+    { h: t("unit.h"), min: t("unit.min"), sec: t("unit.sec") },
+  );
   const sep = dir.includes("/") && !dir.includes("\\") ? "/" : "\\";
   const target = `${dir.replace(/[\\/]+$/, "")}${sep}${project.title}${sep}${char?.name ?? ""}${sep}`;
 
@@ -187,6 +192,7 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
               : merged
                 ? t("export.summaryMerged", { dur: fmtClock(totalSec) })
                 : t("export.summaryClips", { n: items.length, dur: fmtClock(totalSec) })}
+            {items.length > 0 && <span className="text-fg-3"> · {t("export.estimate", { time: estimate })}</span>}
           </div>
           <Button onClick={onClose}>{t("common.cancel")}</Button>
           <Button variant="primary" onClick={start} disabled={starting || !items.length || !dir || blocked}>

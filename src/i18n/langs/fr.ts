@@ -215,6 +215,7 @@ export const fr: Record<Key, string> = {
   "export.folder": "Dossier",
   "export.summaryClips": "{n} clip · {dur}|{n} clips · {dur}",
   "export.summaryMerged": "1 fichier · {dur}",
+  "export.estimate": "environ {time}",
   "export.target": "Sera écrit dans : {path}",
   "export.nvenc": "L’encodage utilisera la carte graphique (NVENC).",
   "export.noNvenc": "L’encodage utilisera le processeur et sera plus lent.",

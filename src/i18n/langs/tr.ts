@@ -215,6 +215,7 @@ export const tr: Record<Key, string> = {
   "export.folder": "Klasör",
   "export.summaryClips": "{n} klip · {dur}|{n} klip · {dur}",
   "export.summaryMerged": "1 dosya · {dur}",
+  "export.estimate": "yaklaşık {time}",
   "export.target": "Şuraya yazılacak: {path}",
   "export.nvenc": "Kodlama için ekran kartı (NVENC) kullanılacak.",
   "export.noNvenc": "Kodlama için işlemci kullanılacak ve daha yavaş olacak.",

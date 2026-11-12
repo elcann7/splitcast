@@ -216,6 +216,7 @@ export const ar: Record<Key, string> = {
   "export.folder": "المجلد",
   "export.summaryClips": "المقاطع: {n} · {dur}",
   "export.summaryMerged": "ملف واحد · {dur}",
+  "export.estimate": "نحو {time}",
   "export.target": "سيُكتب في: {path}",
   "export.nvenc": "سيستخدم الترميز بطاقة الرسوميات (NVENC).",
   "export.noNvenc": "سيستخدم الترميز المعالج وسيكون أبطأ.",

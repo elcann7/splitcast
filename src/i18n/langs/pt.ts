@@ -215,6 +215,7 @@ export const pt: Record<Key, string> = {
   "export.folder": "Pasta",
   "export.summaryClips": "{n} clipe · {dur}|{n} clipes · {dur}",
   "export.summaryMerged": "1 arquivo · {dur}",
+  "export.estimate": "cerca de {time}",
   "export.target": "Será gravado em: {path}",
   "export.nvenc": "A codificação usará a placa de vídeo (NVENC).",
   "export.noNvenc": "A codificação usará o processador e será mais lenta.",

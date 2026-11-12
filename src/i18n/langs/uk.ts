@@ -215,6 +215,7 @@ export const uk: Record<Key, string> = {
   "export.folder": "Тека",
   "export.summaryClips": "{n} кліп · {dur}|{n} кліпи · {dur}|{n} кліпів · {dur}",
   "export.summaryMerged": "1 файл · {dur}",
+  "export.estimate": "близько {time}",
   "export.target": "Буде записано до: {path}",
   "export.nvenc": "Для кодування буде використано відеокарту (NVENC).",
   "export.noNvenc": "Кодування виконуватиме процесор, це займе більше часу.",

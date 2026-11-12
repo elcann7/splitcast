@@ -215,6 +215,7 @@ export const zh: Record<Key, string> = {
   "export.folder": "文件夹",
   "export.summaryClips": "{n} 个片段 · {dur}",
   "export.summaryMerged": "1 个文件 · {dur}",
+  "export.estimate": "约 {time}",
   "export.target": "将写入：{path}",
   "export.nvenc": "编码将使用显卡（NVENC）。",
   "export.noNvenc": "编码将使用处理器，速度较慢。",

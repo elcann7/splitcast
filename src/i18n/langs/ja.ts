@@ -215,6 +215,7 @@ export const ja: Record<Key, string> = {
   "export.folder": "フォルダー",
   "export.summaryClips": "{n} クリップ · {dur}",
   "export.summaryMerged": "1 ファイル · {dur}",
+  "export.estimate": "約 {time}",
   "export.target": "書き込み先：{path}",
   "export.nvenc": "エンコードにはグラフィックスカード（NVENC）を使用します。",
   "export.noNvenc": "エンコードにはプロセッサーを使用するため、時間がかかります。",

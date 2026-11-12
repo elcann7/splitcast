@@ -215,6 +215,7 @@ export const ru: Record<Key, string> = {
   "export.folder": "Папка",
   "export.summaryClips": "{n} клип · {dur}|{n} клипа · {dur}|{n} клипов · {dur}",
   "export.summaryMerged": "1 файл · {dur}",
+  "export.estimate": "около {time}",
   "export.target": "Будет записано в: {path}",
   "export.nvenc": "Для кодирования будет использована видеокарта (NVENC).",
   "export.noNvenc": "Кодирование будет выполняться процессором и займёт больше времени.",

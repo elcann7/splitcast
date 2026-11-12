@@ -215,6 +215,7 @@ export const de: Record<Key, string> = {
   "export.folder": "Ordner",
   "export.summaryClips": "{n} Clip · {dur}|{n} Clips · {dur}",
   "export.summaryMerged": "1 Datei · {dur}",
+  "export.estimate": "etwa {time}",
   "export.target": "Wird geschrieben nach: {path}",
   "export.nvenc": "Zum Codieren wird die Grafikkarte (NVENC) verwendet.",
   "export.noNvenc": "Zum Codieren wird der Prozessor verwendet; das ist langsamer.",

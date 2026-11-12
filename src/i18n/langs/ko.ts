@@ -215,6 +215,7 @@ export const ko: Record<Key, string> = {
   "export.folder": "폴더",
   "export.summaryClips": "클립 {n}개 · {dur}",
   "export.summaryMerged": "파일 1개 · {dur}",
+  "export.estimate": "약 {time}",
   "export.target": "저장 위치: {path}",
   "export.nvenc": "인코딩에 그래픽 카드(NVENC)를 사용합니다.",
   "export.noNvenc": "인코딩에 프로세서를 사용하며 더 느립니다.",

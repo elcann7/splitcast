@@ -215,6 +215,7 @@ export const hi: Record<Key, string> = {
   "export.folder": "फ़ोल्डर",
   "export.summaryClips": "{n} क्लिप · {dur}|{n} क्लिप · {dur}",
   "export.summaryMerged": "1 फ़ाइल · {dur}",
+  "export.estimate": "लगभग {time}",
   "export.target": "यहाँ लिखा जाएगा: {path}",
   "export.nvenc": "एन्कोडिंग में ग्राफ़िक्स कार्ड (NVENC) इस्तेमाल होगा।",
   "export.noNvenc": "एन्कोडिंग में प्रोसेसर इस्तेमाल होगा और यह धीमा होगा।",
