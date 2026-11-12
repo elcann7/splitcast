@@ -7,14 +7,11 @@
     3. stages the app files (build\app)
     4. compiles splitcast.iss with Inno Setup 6
 
-  Needs: Node 20+, Inno Setup 6 (preinstalled on GitHub's windows runners). Heavy wheels are NOT bundled;
-  the installer downloads them at install time (see install_components.cmd).
+  One installer for every GPU: the NVIDIA build of ONNX Runtime (CUDA) is installed normally, the DirectML build
+  (AMD, Intel, any DirectX 12 GPU) goes into runtime\Lib\dml-packages, and the app picks one at startup
+  (backend/scenepack/devices.py). Needs: Node 20+, Inno Setup 6 (preinstalled on GitHub's windows runners).
 #>
-param(
-    [string]$Version,
-    # cuda: NVIDIA GPUs (onnxruntime-gpu + CUDA). directml: AMD, Intel and any DirectX 12 GPU (onnxruntime-directml).
-    [ValidateSet('cuda', 'directml')][string]$Variant = 'cuda'
-)
+param([string]$Version)
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
@@ -78,17 +75,17 @@ foreach ($f in 'README.md', 'LICENSE') { if (Test-Path (Join-Path $Root $f)) { C
 
 # --- 3b. bundle the AI runtime, ffmpeg and the default models ------------------
 # Like a pro desktop app, the installer is self-contained: nothing is downloaded while installing.
-Step "Python packages ($Variant)"
+Step "Python packages (CUDA build of ONNX Runtime, ~2.3 GB unpacked)"
 $py = Join-Path $rt 'python.exe'
-if ($Variant -eq 'directml') {
-    # the staged requirements.txt is what the runtime installs and what 'repair' reinstalls
-    Copy-Item (Join-Path $Root 'backend/requirements-directml.txt') (Join-Path $app 'backend/requirements.txt') -Force
-}
 # a few small dependencies (proxy_tools) ship as source and need a build backend; get-pip does not install one
 & $py -m pip install --disable-pip-version-check --no-warn-script-location setuptools wheel
 if ($LASTEXITCODE) { throw 'pip install setuptools failed' }
 & $py -m pip install --disable-pip-version-check --no-warn-script-location -r (Join-Path $app 'backend\requirements.txt')
 if ($LASTEXITCODE) { throw 'pip install failed' }
+
+Step 'DirectML build of ONNX Runtime (a separate folder, chosen at startup)'
+& $py -m pip install --disable-pip-version-check --no-warn-script-location --no-deps --target (Join-Path $rt 'Lib\dml-packages') -r (Join-Path $app 'backend/requirements-dml.txt')
+if ($LASTEXITCODE) { throw 'pip install (DirectML) failed' }
 
 Step 'ffmpeg and the balanced model pack (staged as the user data folder)'
 $data = Join-Path $Build 'data'
@@ -108,10 +105,9 @@ $iscc = @(
     "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 ) | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
 if (-not $iscc) { throw 'Inno Setup 6 was not found. Install it (winget install JRSoftware.InnoSetup).' }
-& $iscc "/DAppVersion=$Version" "/DVariant=$Variant" (Join-Path $Here 'splitcast.iss')
+& $iscc "/DAppVersion=$Version" (Join-Path $Here 'splitcast.iss')
 if ($LASTEXITCODE) { throw 'ISCC failed' }
 
-$label = if ($Variant -eq 'directml') { 'AMD-Intel' } else { 'NVIDIA' }
-$out = Join-Path $Here "Output\Splitcast-Setup-$label-$Version.exe"
+$out = Join-Path $Here "Output\Splitcast-Setup-$Version.exe"
 Write-Host ("`nDone: {0}  ({1:N1} MB)" -f $out, ((Get-Item $out).Length / 1MB)) -ForegroundColor Green
 

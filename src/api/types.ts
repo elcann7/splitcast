@@ -160,6 +160,8 @@ export type ExportOptionsT = Omit<ExportRequest, "characterId" | "appearanceIds"
 
 export interface Settings {
   language: Lang;
+  /** "auto": the best GPU build; "cpu": processor only. Read at startup. */
+  device: "auto" | "cpu";
   defaultPreset: PresetId;
   exportDir: string;
   export: ExportOptionsT;

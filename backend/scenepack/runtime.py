@@ -234,5 +234,13 @@ def session_provider(sess) -> str:
     return "cuda" if p == "CUDAExecutionProvider" else "dml" if p == "DmlExecutionProvider" else "cpu"
 
 
-if __name__ == "__main__":  # python -m scenepack.runtime
+if __name__ == "__main__":  # python -m scenepack.runtime [--probe-cuda]
+    import sys
+
+    if "--probe-cuda" in sys.argv:  # used by devices.select: exit 0 only if a real CUDA session runs here
+        try:
+            ort.preload_dlls()
+        except Exception:
+            pass
+        sys.exit(0 if "CUDAExecutionProvider" in ort.get_available_providers() and _probe("CUDAExecutionProvider") else 1)
     print(device_info())

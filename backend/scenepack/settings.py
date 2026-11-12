@@ -9,6 +9,7 @@ from . import paths, registry
 
 _lock = threading.Lock()
 
+DEVICES = ("auto", "cpu")
 LANGUAGES = ("az", "en", "tr", "ru", "uk", "de", "fr", "es", "pt", "it", "pl", "zh", "ja", "ko", "ar", "hi")
 
 _EXPORT_DEFAULTS = {"mode": "clips", "codec": "h264", "quality": "high", "audio": True,
@@ -16,7 +17,7 @@ _EXPORT_DEFAULTS = {"mode": "clips", "codec": "h264", "quality": "high", "audio"
 
 
 def defaults() -> dict:
-    return {"language": "az", "defaultPreset": "balanced", "exportDir": str(paths.default_export_dir()),
+    return {"language": "az", "device": "auto", "defaultPreset": "balanced", "exportDir": str(paths.default_export_dir()),
             "export": dict(_EXPORT_DEFAULTS)}
 
 
@@ -24,8 +25,8 @@ def load() -> dict:
     s = defaults()
     try:
         saved = json.loads(paths.SETTINGS_FILE.read_text(encoding="utf-8-sig"))
-        for k in ("language", "defaultPreset", "exportDir"):
-            if k in saved and (k != "language" or saved[k] in LANGUAGES):
+        for k in ("language", "device", "defaultPreset", "exportDir"):
+            if k in saved and (k != "language" or saved[k] in LANGUAGES) and (k != "device" or saved[k] in DEVICES):
                 s[k] = saved[k]
         s["export"].update({k: v for k, v in saved.get("export", {}).items() if k in _EXPORT_DEFAULTS})
     except (OSError, ValueError):
@@ -41,6 +42,7 @@ def save(new: dict) -> dict:
     if new.get("defaultPreset") not in registry.PRESETS:
         raise ProjectError("bad_request", "unknown defaultPreset")
     s["language"], s["defaultPreset"] = new["language"], new["defaultPreset"]
+    s["device"] = new.get("device", "auto") if new.get("device", "auto") in DEVICES else "auto"
     s["exportDir"] = str(new.get("exportDir") or s["exportDir"])
     ex = new.get("export") or {}
     for k in _EXPORT_DEFAULTS:

@@ -506,6 +506,7 @@ const system = (): SystemInfo => ({
 
 let settings: Settings = {
   language: params.get("lang") === "en" ? "en" : params.get("lang") === "ar" ? "ar" : "az",
+  device: "auto",
   defaultPreset: "balanced",
   exportDir: "C:\\Users\\Demo\\Videos\\Scenepack",
   export: { mode: "clips", codec: "h264", quality: "high", audio: true, paddingMs: 200, joinAdjacent: true },

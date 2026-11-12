@@ -1,0 +1,5 @@
+# DirectML build of ONNX Runtime for AMD, Intel and any DirectX 12 GPU. Installed with --no-deps into
+# runtime\Lib\dml-packages (never into the normal site-packages: it would replace onnxruntime-gpu).
+# Its dependencies (numpy, protobuf, flatbuffers, packaging, sympy, coloredlogs) come from the normal install.
+onnxruntime-directml>=1.20
+onnx>=1.16

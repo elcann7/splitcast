@@ -16,6 +16,9 @@ echo.
 "%PY%" -m pip install --disable-pip-version-check --no-warn-script-location -r "%APP%backend\requirements.txt"
 if errorlevel 1 goto :fail
 
+"%PY%" -m pip install --disable-pip-version-check --no-warn-script-location --no-deps --target "%APP%..\runtime\Lib\dml-packages" -r "%APP%backend\requirements-dml.txt"
+if errorlevel 1 goto :fail
+
 "%PY%" -m scenepack.bootstrap
 if errorlevel 1 goto :fail
 

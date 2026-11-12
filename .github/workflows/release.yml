@@ -1,4 +1,4 @@
-name: Release installers
+name: Release installer
 on:
   push:
     tags: ["v*"]
@@ -9,19 +9,15 @@ jobs:
   installer:
     runs-on: windows-latest
     timeout-minutes: 120
-    strategy:
-      fail-fast: false
-      matrix:
-        variant: [cuda, directml]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - name: Build the installer (${{ matrix.variant }})
+      - name: Build the installer
         shell: pwsh
-        run: ./installer/build.ps1 -Variant ${{ matrix.variant }}
+        run: ./installer/build.ps1
       - name: Upload to the release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
@@ -32,6 +28,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
-          name: Splitcast-Setup-${{ matrix.variant }}
+          name: Splitcast-Setup
           path: installer/Output/*
           compression-level: 0

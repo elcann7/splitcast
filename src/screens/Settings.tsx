@@ -37,6 +37,7 @@ function Row({ label, hint, children }: { label: ReactNode; hint?: ReactNode; ch
 
 export function SettingsScreen() {
   const t = useT();
+  const [deviceChanged, setDeviceChanged] = useState(false);
   const settings = useApp((s) => s.settings);
   const system = useApp((s) => s.system);
   const save = useApp((s) => s.saveSettings);
@@ -89,6 +90,19 @@ export function SettingsScreen() {
               </Row>
               <Row label={t("settings.compute")} hint={dev.note ?? undefined}>
                 <span className="mono text-meta text-fg-1">{dev.provider === "cuda" ? t("settings.cuda") : dev.provider === "dml" ? "DirectML (GPU)" : t("settings.cpu")}</span>
+              </Row>
+              <Row label={t("settings.deviceMode")} hint={deviceChanged ? t("settings.deviceRestart") : undefined}>
+                <Select
+                  className="min-w-[200px]"
+                  value={settings.device}
+                  onChange={(e) => {
+                    setDeviceChanged(true);
+                    persist({ device: e.target.value as Settings["device"] });
+                  }}
+                >
+                  <option value="auto">{t("settings.deviceAuto")}</option>
+                  <option value="cpu">{t("settings.deviceCpu")}</option>
+                </Select>
               </Row>
               <Row label={t("settings.ffmpeg")}>
                 <span className="mono text-meta text-fg-1">{system.ffmpeg.ok ? (system.ffmpeg.version ?? "ok") : t("settings.ffmpegMissing")}</span>

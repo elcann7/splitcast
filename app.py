@@ -23,6 +23,11 @@ if sys.stdout is None or sys.stderr is None:
     sys.stdout = sys.stdout or _log
     sys.stderr = sys.stderr or _log
 
+# choose CUDA or DirectML (or the CPU) before anything imports onnxruntime; see scenepack/devices.py
+from scenepack import devices  # noqa: E402
+
+RUNTIME = devices.select(ROOT)
+
 from scenepack import dialogs, server  # noqa: E402
 from scenepack.jobs import JOBS  # noqa: E402
 

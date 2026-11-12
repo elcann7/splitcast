@@ -12,7 +12,7 @@
 
 <p align="center">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%2010%2F11-1c1c1e?style=flat-square" />
-  <img alt="GPU" src="https://img.shields.io/badge/GPU-NVIDIA%20(CUDA)-e9a23b?style=flat-square&labelColor=1c1c1e" />
+  <img alt="GPU" src="https://img.shields.io/badge/GPU-NVIDIA%20%C2%B7%20AMD%20%C2%B7%20Intel-e9a23b?style=flat-square&labelColor=1c1c1e" />
   <img alt="Offline" src="https://img.shields.io/badge/runs-offline-1c1c1e?style=flat-square" />
   <img alt="Languages" src="https://img.shields.io/badge/UI-16%20languages-1c1c1e?style=flat-square" />
 </p>
@@ -91,40 +91,33 @@ Anime mode uses the [deepghs](https://huggingface.co/deepghs) anime face detecto
 
 ## Install
 
-Pick the installer for your graphics card from the [latest release](https://github.com/elcann7/splitcast/releases/latest):
+1. Download **`Splitcast-Setup-x.y.z.exe`** from the [latest release](https://github.com/elcann7/splitcast/releases/latest) (about 1.5 GB).
+2. Run it. No admin rights, no Python, no internet needed while installing: the app, the AI runtimes for every GPU brand, ffmpeg and the Balanced models are all inside.
+3. Open **Splitcast** from the Start menu.
 
-| Your GPU | Download | Size | Status |
-|---|---|---|---|
-| **NVIDIA** (GeForce, RTX, Quadro) | `Splitcast-Setup-NVIDIA-x.y.z.exe` | ~1.5 GB | Tested on an RTX 5060 |
-| **AMD**, **Intel** (Arc or integrated) or any other DirectX 12 GPU | `Splitcast-Setup-AMD-Intel-x.y.z.exe` | ~0.6 GB | **Experimental**, see below |
+One installer works on **NVIDIA, AMD and Intel** graphics cards. At startup Splitcast picks the right engine by itself: CUDA on NVIDIA, DirectML on everything else (and on NVIDIA cards whose driver is too old for CUDA 13). *Settings → Compute* shows what is being used, and lets you choose *Processor only* if something misbehaves.
 
-Not sure? Press Win+R, type `dxdiag`, open the *Display* tab and read the name of your card.
-
-1. Run the installer. No admin rights, no Python, no internet needed while installing: the app, the AI runtime, ffmpeg and the Balanced models are all inside.
-2. Open **Splitcast** from the Start menu.
-
-Windows may show a SmartScreen notice because the installers are not code-signed yet. Choose *More info → Run anyway*.
+Windows may show a SmartScreen notice because the installer is not code-signed yet. Choose *More info → Run anyway*.
 
 Fast, Maximum and the anime models are not in the installer; Splitcast downloads them once, the first time you pick that quality.
 
 User data (projects, models, settings, log) lives in `%LOCALAPPDATA%\Splitcast`. Uninstalling asks whether to delete it.
 
-### About the AMD / Intel build
+### What has been tested on which card
 
-It uses **DirectML**, which runs the same models on any DirectX 12 GPU. What has been verified and what has not:
+| | Analysis | Video export |
+|---|---|---|
+| **NVIDIA** (CUDA) | Tested on an RTX 5060 | NVENC, tested |
+| **AMD / Intel** (DirectML) | Whole pipeline verified through DirectML (on an NVIDIA card): same characters as CUDA, about 4× real time on Balanced. **No AMD or Intel card has been available**, so driver differences may show up. | AMF (AMD) and Quick Sync (Intel) are used only if a real test encode succeeds on your machine; otherwise the CPU encoder is used. Never run on real AMD/Intel hardware. |
 
-- **Verified:** the whole analysis pipeline runs through DirectML and finds the same characters as the NVIDIA build (tested on an NVIDIA card through DirectML; about 4× real time on Balanced).
-- **Not verified:** no AMD or Intel card has been available for testing. Driver differences may show up.
-- **It protects itself:** if a model fails on the GPU, that model continues on the CPU (slower, never broken). The reason is shown under *Settings → Compute*.
-- **Video export:** AMD (AMF) and Intel (Quick Sync) hardware encoders are used only if a real test encode succeeds on your machine; otherwise the CPU encoder is used.
-- To force the CPU (for troubleshooting), set the environment variable `SCENEPACK_FORCE_CPU=1`.
+It protects itself: if a model fails on the GPU, that model continues on the CPU (slower, never broken), and the reason is shown under *Settings → Compute*. For support you can also set the environment variable `SCENEPACK_DEVICE` to `cuda`, `dml` or `cpu`.
 
 If something does not work on your card, please open an issue and include the text from *Settings → Compute* and `%LOCALAPPDATA%\Splitcast\app.log`.
 
 ### Requirements
 
 - Windows 10 (1903+) or 11, 64-bit
-- A graphics card as above. Without a usable GPU it falls back to the CPU, which works but is much slower.
+- A DirectX 12 graphics card (NVIDIA, AMD, Intel). Without a usable GPU it falls back to the CPU, which works but is much slower.
 - About 6 GB of free disk space for the install plus your projects.
 ### Build from source
 

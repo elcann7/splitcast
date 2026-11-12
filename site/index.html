@@ -59,7 +59,7 @@
           </a>
           <a class="btn ghost lg" data-repo href="#" rel="noopener">View on GitHub</a>
         </div>
-        <p class="fine mono">Windows 10/11 · NVIDIA GPU · 16 languages</p>
+        <p class="fine mono">Windows 10/11 · NVIDIA, AMD and Intel GPUs · 16 languages</p>
       </div>
 
       <div class="wrap stage-wrap">
@@ -244,7 +244,7 @@
           <div class="honest reveal" style="--d:1">
             <h3>Things worth knowing</h3>
             <ul>
-              <li><b>Windows + NVIDIA for now.</b> It uses CUDA. Other GPUs are on the list, not in the box.</li>
+              <li><b>NVIDIA is tested, AMD and Intel are experimental.</b> One installer covers all three. The AMD and Intel path (DirectML) works on the test machine but has not met a real AMD or Intel card yet.</li>
               <li><b>Balanced models are inside the installer.</b> Fast, Maximum and the anime models download once, the first time you pick them.</li>
               <li><b>Characters are numbered, not named.</b> It does not know who an actor is. You rename them.</li>
               <li><b>Anime background extras can mix.</b> Leads are reliable; crowds are not.</li>
@@ -261,7 +261,7 @@
         <p class="eyebrow mono">/install</p>
         <h2 class="h2 reveal">Download, double-click, done.</h2>
         <ol class="inst reveal">
-          <li><b>Download</b> <a data-release href="#">Splitcast-Setup.exe</a> from the latest release. It is about 2 GB because everything is inside: the app, the AI runtime, ffmpeg and the models.</li>
+          <li><b>Download</b> <a data-release href="#">Splitcast-Setup.exe</a> from the latest release. It is about 1.5 GB because everything is inside: the app, the AI engines for NVIDIA, AMD and Intel cards, ffmpeg and the models.</li>
           <li><b>Run it.</b> No admin rights, no Python, no internet needed while installing.</li>
           <li><b>Open Splitcast</b> from the Start menu and drop in a film.</li>
         </ol>
@@ -288,7 +288,7 @@ cd splitcast
         <div class="faq reveal">
           <details open><summary>Is it really free?</summary><p>Yes. Open source, no account, no paid tier. If it saves you time, a star on GitHub is the nicest thanks.</p></details>
           <details><summary>Does my footage leave my computer?</summary><p>No. Analysis and export run locally. The only network traffic is a one-time model download, when you pick a quality level whose models are not installed yet.</p></details>
-          <details><summary>Which graphics cards work?</summary><p>NVIDIA cards with CUDA support. It was developed on an RTX 5060. Without a supported GPU it will fall back to the CPU, which is much slower.</p></details>
+          <details><summary>Which graphics cards work?</summary><p>NVIDIA (CUDA), and AMD and Intel (DirectML). The NVIDIA path is tested on an RTX 5060. The AMD and Intel path is verified through DirectML but has not been run on a real AMD or Intel card yet, so treat it as experimental. Without a usable GPU it falls back to the CPU, which is much slower.</p></details>
           <details><summary>Can it tell me the character’s name?</summary><p>No, and it does not try. Characters appear as “Character 01, 02…” ranked by screen time. Double-click to rename.</p></details>
           <details><summary>What about animated films and anime?</summary><p>Choose <em>Anime</em> when you create the project. It uses a model trained for drawn characters. Leads work well; background crowds may get mixed.</p></details>
           <details><summary>Can I cut a whole season?</summary><p>Yes. Add all the episodes to one project; each character is matched across episodes, so you export one scenepack per character for the season.</p></details>

@@ -6,14 +6,6 @@
 #ifndef AppVersion
   #define AppVersion "0.1.0"
 #endif
-#ifndef Variant
-  #define Variant "cuda"
-#endif
-#if Variant == "directml"
-  #define VariantLabel "AMD-Intel"
-#else
-  #define VariantLabel "NVIDIA"
-#endif
 
 [Setup]
 AppId={{6B1F0C3E-5D84-4C57-9A0B-2E7A4F1D9C11}
@@ -26,7 +18,7 @@ DefaultGroupName=Splitcast
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=Output
-OutputBaseFilename=Splitcast-Setup-{#VariantLabel}-{#AppVersion}
+OutputBaseFilename=Splitcast-Setup-{#AppVersion}
 SetupIconFile=..\branding\app.ico
 UninstallDisplayIcon={app}\runtime\Splitcast.exe
 UninstallDisplayName=Splitcast
