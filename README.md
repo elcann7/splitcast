@@ -42,8 +42,9 @@ Think of it as the tool you wish came with every scenepack you've ever downloade
 - **Three quality levels.** Fast, Balanced, Maximum. Slower means fewer mix-ups between similar faces. You see an estimate before you start.
 - **Frame-accurate review.** Play, set In/Out with `I` and `O`, step between scenes with the arrow keys. A strip under the grid shows where the character appears in the film.
 - **Filters.** Shot size (close, medium, wide), solo shots only, minimum length.
+- **Best scenes.** One click picks the top 25 / 50 / 75 % of a character's scenes by how usable they are: large in frame, recognised with confidence, alone, long enough. Handy when a character has 40 minutes of scenes and you only want the good 15.
 - **Fix mistakes.** Move scenes to another character, merge two characters, hide extras.
-- **Export your way.** Copy the original stream (instant, lossless), or re-encode with H.264, HEVC or ProRes 422 HQ. NVENC is used when your GPU supports it.
+- **Export your way.** Copy the original stream (instant, lossless), or re-encode with H.264, HEVC or ProRes 422 HQ. NVENC is used when your GPU supports it. The dialog shows an estimated time for the format and quality you pick.
 - **Private.** No account, no cloud, no telemetry. Models are downloaded once; analysis and export run offline.
 - **16 interface languages**, including right-to-left layout for Arabic.
 

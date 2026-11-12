@@ -664,3 +664,9 @@ lists the presets of both kinds; the UI filters by the chosen kind.
 - WebView2 runtime is downloaded only if Windows lacks it. "Repair components" (Start menu) runs `install_components.cmd` (pip + `scenepack.bootstrap`).
 - `.github/workflows/release.yml` builds it on a `v*` tag and attaches it to the release. Not code-signed yet (SmartScreen notice).
 - Verified on this machine: silent install in 116 s, CUDA provider, bundled models detected, a 5-minute film analysed end to end (10 characters, 66 s).
+
+## 11. Choosing scenes and export time
+
+- `src/lib/sceneScore.ts`: `sceneScore` = (0.4 coverage + 0.25 confidence + 0.2 shot size [close 1, medium .8, wide .35] + 0.15 "alone" [1 solo, -0.25 per extra person]) x length factor (under 1.2 s = 0.3, full at 4 s). `bestScenes(list, fraction)` returns the top fraction of the visible scenes; the workspace "Best scenes" menu (25/50/75 %) replaces the selection with it. Only data the analysis already stores is used.
+- `src/lib/exportEstimate.ts`: wall-clock estimate shown in the export dialog (copy ~200x, NVENC H.264 ~7x, HEVC ~5x, ProRes ~2.5x, CPU encode ~1.2x, plus 0.35 s per clip), calibrated on 201 clips / 28 min = ~5 min.
+- Export progress now advances after every clip (`finished()` in `export.py`); ffmpeg only reports progress for clips that run long enough.

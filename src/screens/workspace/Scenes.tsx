@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
+import { Sparkles } from "lucide-react";
 import type { Appearance } from "../../api";
 import { useT } from "../../i18n";
 import { Button } from "../../ui/Button";
@@ -7,6 +8,7 @@ import { Menu } from "../../ui/Menu";
 import type { MenuItem } from "../../ui/Menu";
 import { StateMessage } from "../../ui/States";
 import { fmtClock } from "../../lib/time";
+import { bestScenes } from "../../lib/sceneScore";
 import { DEFAULT_FILTERS, useWS } from "../../store/workspace";
 import type { Filters } from "../../store/workspace";
 import { useWorkspace } from "./ctx";
@@ -23,6 +25,7 @@ export function Scenes() {
   const setFilters = useWS((s) => s.setFilters);
   const anchor = useRef<{ cid: string; index: number } | null>(null);
   const [menu, setMenu] = useState<{ x: number; y: number; a: Appearance } | null>(null);
+  const [bestMenu, setBestMenu] = useState<{ x: number; y: number } | null>(null);
 
   const isDefault = (Object.keys(DEFAULT_FILTERS) as (keyof Filters)[]).every((k) => filters[k] === DEFAULT_FILTERS[k]);
 
@@ -159,6 +162,19 @@ export function Scenes() {
               >
                 {t("scenes.selectAll")}
               </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={list.length === 0}
+                title={t("scenes.bestHint")}
+                onClick={(e) => {
+                  const r = e.currentTarget.getBoundingClientRect();
+                  setBestMenu({ x: r.left, y: r.bottom + 4 });
+                }}
+              >
+                <Sparkles size={14} strokeWidth={1.5} />
+                {t("scenes.best")}
+              </Button>
               <Button size="sm" variant="ghost" disabled={nSel === 0} title="Esc" onClick={() => setSelection([])}>
                 <span className="cq-long">{t("scenes.clearSel")}</span>
                 <span className="cq-short">{t("scenes.clearShort")}</span>
@@ -278,6 +294,14 @@ export function Scenes() {
       />
 
       {menu && <Menu x={menu.x} y={menu.y} items={menuItems(menu.a)} onClose={() => setMenu(null)} />}
+      {bestMenu && (
+        <Menu
+          x={bestMenu.x}
+          y={bestMenu.y}
+          items={[25, 50, 75].map((p) => ({ label: t("scenes.bestPct", { p }), onClick: () => setSelection(bestScenes(list, p / 100)) }))}
+          onClose={() => setBestMenu(null)}
+        />
+      )}
     </section>
   );
 }
