@@ -10,7 +10,7 @@
   const repoUrl = `https://github.com/${REPO}`;
   $$("[data-repo]").forEach((a) => (a.href = repoUrl));
   $$("[data-repo-url]").forEach((s) => (s.textContent = repoUrl));
-  $$("[data-release]").forEach((a) => (a.href = `${repoUrl}/releases/latest`));
+  $$("[data-release]").forEach((a) => (a.href = `${repoUrl}/releases/latest/download/Splitcast-Setup.exe`));
 
   /* headline: split into words that blur in one after another */
   const head = $("#headline");

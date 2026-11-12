@@ -1,5 +1,6 @@
 <#
-  Builds installer\Output\Splitcast-Setup-<version>.exe.
+  Builds installer\Output\Splitcast-Setup.exe (the version is inside the file; the name stays the same so
+  https://github.com/<owner>/splitcast/releases/latest/download/Splitcast-Setup.exe always points at the newest one).
 
     1. builds the UI (npm run build)
     2. stages an embedded Python 3.12 with pip (build\runtime) and renames pythonw.exe to Splitcast.exe
@@ -108,6 +109,6 @@ if (-not $iscc) { throw 'Inno Setup 6 was not found. Install it (winget install 
 & $iscc "/DAppVersion=$Version" (Join-Path $Here 'splitcast.iss')
 if ($LASTEXITCODE) { throw 'ISCC failed' }
 
-$out = Join-Path $Here "Output\Splitcast-Setup-$Version.exe"
+$out = Join-Path $Here "Output\Splitcast-Setup.exe"
 Write-Host ("`nDone: {0}  ({1:N1} MB)" -f $out, ((Get-Item $out).Length / 1MB)) -ForegroundColor Green
 

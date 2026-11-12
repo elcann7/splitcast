@@ -10,3 +10,7 @@ public/sample_demo.mp4
 installer/build/
 installer/cache/
 installer/Output/
+
+# vercel
+.vercel/
+site/.vercel/

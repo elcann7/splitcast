@@ -11,6 +11,10 @@
 </p>
 
 <p align="center">
+  <a href="https://splitcast-app.vercel.app"><b>Website</b></a> &nbsp;·&nbsp; <a href="https://github.com/elcann7/splitcast/releases/latest/download/Splitcast-Setup.exe"><b>Download</b></a>
+</p>
+
+<p align="center">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%2010%2F11-1c1c1e?style=flat-square" />
   <img alt="GPU" src="https://img.shields.io/badge/GPU-NVIDIA%20%C2%B7%20AMD%20%C2%B7%20Intel-e9a23b?style=flat-square&labelColor=1c1c1e" />
   <img alt="Offline" src="https://img.shields.io/badge/runs-offline-1c1c1e?style=flat-square" />
@@ -91,7 +95,7 @@ Anime mode uses the [deepghs](https://huggingface.co/deepghs) anime face detecto
 
 ## Install
 
-1. Download **`Splitcast-Setup-x.y.z.exe`** from the [latest release](https://github.com/elcann7/splitcast/releases/latest) (about 1.5 GB).
+1. **[Download Splitcast-Setup.exe](https://github.com/elcann7/splitcast/releases/latest/download/Splitcast-Setup.exe)** (about 1.5 GB; the download starts right away). Older versions are on the [releases page](https://github.com/elcann7/splitcast/releases).
 2. Run it. No admin rights, no Python, no internet needed while installing: the app, the AI runtimes for every GPU brand, ffmpeg and the Balanced models are all inside.
 3. Open **Splitcast** from the Start menu.
 
