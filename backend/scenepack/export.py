@@ -211,6 +211,11 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
     def frac(i: int, f: float) -> None:
         job.update(progress=(i + f) / (n + (0.05 if merged else 0)), message=f"{min(i + 1, n)} / {n}")
 
+    def finished(count: int) -> None:
+        # ffmpeg reports progress only for clips that run long enough; a clip of a second or two ends before the
+        # first progress line, so without this the bar stayed at 0% while hundreds of clips were being written
+        job.update(progress=count / (n + (0.05 if merged else 0)), message=f"{count} / {n}")
+
     files: list[str] = []
     if not merged:
         for pt in parts:
@@ -227,6 +232,7 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
                       job=job, on_frac=lambda f, i=done: frac(i, f))
                 files.append(str(out))
                 done += 1
+                finished(done)
     else:
         ext = _copy_ext(ref, audio) if copy else (".mov" if codec == "prores" else ".mp4")
         vargs = [] if copy else _video_args(codec, req.get("quality", "high"), nvenc, _is_10bit(ref["path"]))
@@ -245,6 +251,7 @@ def run_export(pid: str, req: dict, job: Job) -> dict:
                           silent=silent, job=job, on_frac=lambda f, i=done: frac(i, f))
                     segs.append(seg)
                     done += 1
+                    finished(done)
             lst = tmp / "list.txt"
             lst.write_text("".join(f"file '{sg.as_posix()}'\n" for sg in segs), encoding="utf-8")
             out = out_dir / f"{safe_name(p['title'])} - {safe_name(char['name'])} - merged{ext}"
